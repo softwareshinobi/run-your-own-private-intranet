@@ -154,25 +154,6 @@ services:
 ##
 ##########################################
 
-    intranet-ubuntu:
-
-        container_name: intranet-ubuntu
-
-        image: softwareshinobi/software-shinobi-linux
-
-        volumes:
-
-            - /volumes/intranet/servers/countach/shinobi:/home/shinobi
-
-            - /volumes/intranet/servers/share:/home/shinobi/Share
- 
-        hostname: countach
-
-        domainname: countach.embanet.online
-
-        ports:
-            
-            - "10.28.1.1:2222:22"
 
 ##########################################
 ##
@@ -295,3 +276,88 @@ services:
             USER_UID: 1000
 
             USER_GID: 1000
+
+##########################################
+##
+## intranet / private desktop
+##
+##########################################
+
+    intranet-ubuntu:
+
+        container_name: intranet-ubuntu
+
+        image: softwareshinobi/software-shinobi-linux
+
+        volumes:
+
+            - /volumes/intranet/servers/countach/shinobi:/home/shinobi
+
+            - /volumes/intranet/servers/share:/home/shinobi/Share
+ 
+        hostname: countach
+
+        domainname: countach.embanet.online
+
+        ports:
+            
+            - "10.28.1.1:2222:22"
+
+    intranet-desktop:
+
+        container_name: intranet-desktop
+
+        hostname: urus
+
+        image: softwareshinobi/shinobi-academy-desktop
+
+        restart: unless-stopped
+
+##        deploy:
+##
+##            resources:
+##
+##                limits:
+##          - "10.28.1.1:5900:5900"
+
+##                    cpus: 2
+##
+##                    memory: 3.5G
+##
+##                reservations:
+##
+##                    cpus: 1
+##
+##                    memory: 2.0G
+
+        volumes:
+
+            - /volumes/intranet/servers/shinobi:/home/shinobi
+            
+            - /volumes/intranet/servers/share:/home/shinobi/Share           
+
+        ports:
+
+          - "10.28.1.1:5922:22"
+          
+          - "10.28.1.1:5980:80"
+
+          - "10.28.1.1:5900:5900"
+
+          - "127.0.0.1:5900:5900"
+          
+        domainname: urus.embanet.online
+
+        environment:
+        
+            TZ: America/Bogota
+
+            USER_UID: 1000
+
+            USER_GID: 1000
+
+            USER: shinobi
+
+            PASSWORD: password
+
+            HTTP_PASSWORD: password
