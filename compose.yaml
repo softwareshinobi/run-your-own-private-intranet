@@ -96,7 +96,7 @@ services:
 
 ##########################################
 ##
-## intranet services / accessible on VPS only
+## intranet / landing
 ##
 ##########################################
 
@@ -119,6 +119,26 @@ services:
             - "127.0.0.1:80:80"
             
             - "10.28.1.1:80:80"
+
+##
+##
+##
+
+    intranet-calendar:
+
+        container_name: intranet-calendar
+
+        image: tomsquest/docker-radicale
+
+        restart: unless-stopped
+
+        ports:
+
+            - "10.28.1.1:5232:5232"           
+
+        volumes:
+
+            - /volumes/intranet/calendar:/data
 
 ##########################################
 ##
@@ -361,3 +381,29 @@ services:
             PASSWORD: password
 
             HTTP_PASSWORD: password
+
+
+##
+
+    intranet-automation:
+
+        container_name: intranet-automation
+
+        image: jenkins/jenkins:lts
+
+        privileged: true
+
+        user: root
+
+        ports:
+
+          - "10.28.1.1:9999:8080
+
+          - "10.28.1.1:50000:50000
+
+        volumes:
+
+            - /volumes/intranet/devops/jenkins/:/var/jenkins_home
+
+            - /var/run/docker.sock:/var/run/docker.sock
+      
