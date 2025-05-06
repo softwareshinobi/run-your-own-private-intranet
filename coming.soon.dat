@@ -1,0 +1,18 @@
+    magick:
+
+        container_name: magick
+
+        image: titom73/mkdocs
+      
+        restart: unless-stopped
+
+        volumes:
+        
+            - /opt/embaNET/intranet/article-magick-reloaded/docs/:/docs/docs/
+                        
+            - /opt/embaNET/intranet/article-magick-reloaded/mkdocs.yml:/docs/mkdocs.yml
+          
+        ports:
+
+            - "10.28.1.1:777:8000"                      
+

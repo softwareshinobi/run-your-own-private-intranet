@@ -22,4 +22,4 @@ docker compose pull
 
 docker compose down --remove-orphans
 
-docker compose up -d
+docker compose up -d --build
