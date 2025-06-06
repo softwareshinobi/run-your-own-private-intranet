@@ -9,14 +9,14 @@ services:
     public-vpn-server:
 
         container_name: public-vpn-server
-        
+
         image: kylemanna/openvpn
 
         restart: unless-stopped
-                
+
         cap_add:
 
-            - NET_ADMIN       
+            - NET_ADMIN
 
         volumes:
 
@@ -30,16 +30,16 @@ services:
 
         container_name: public-vpn-docs
 
-        image: softwareshinobi/embanet-intranet-docs
+        image: softwareshinobi/embanet-intranet:docs
 
-        build: 
+        build:
 
             context: docs
 
             dockerfile: Dockerfile
-      
+
         restart: unless-stopped
-  
+
         ports:
 
             - "1180:80"
@@ -63,7 +63,7 @@ services:
             - 1194:80
 
         environment:
-            
+
 ##            BASIC_AUTH_USERNAME: shinobi
 ##
 ##            BASIC_AUTH_PASSWORD: password
@@ -73,17 +73,17 @@ services:
     private-vpn-keys:
 
         container_name: private-vpn-keys
-        
-        image: softwareshinobi/embanet-intranet-keys
+
+        image: softwareshinobi/embanet-intranet:keys
 
         restart: unless-stopped
 
-        build: 
+        build:
 
             context: publisher
 
             dockerfile: Dockerfile
-      
+
         volumes:
 
             - /volumes/intranet/openvpn/:/usr/share/nginx/html/keys/
@@ -91,7 +91,7 @@ services:
         ports:
 
             - "127.0.0.1:1188:80"
-            
+
             - "10.28.1.1:1188:80"
 
 ##########################################
@@ -104,20 +104,20 @@ services:
 
         container_name: private-intranet-landing
 
-        image: softwareshinobi/embanet-intranet-landing
+        image: softwareshinobi/embanet-intranet:landing
 
-        build: 
+        build:
 
             context: landing
 
             dockerfile: Dockerfile
- 
+
         restart: unless-stopped
-  
+
         ports:
 
             - "127.0.0.1:80:80"
-            
+
             - "10.28.1.1:80:80"
 
 ##
@@ -134,7 +134,7 @@ services:
 
         ports:
 
-            - "10.28.1.1:5232:5232"           
+            - "10.28.1.1:5232:5232"
 
         volumes:
 
@@ -145,7 +145,7 @@ services:
 ## intranet / file storage
 ##
 ##########################################
-    
+
     intranet-nfs:
 
         container_name: intranet-nfs
@@ -153,7 +153,7 @@ services:
         image: itsthenetwork/nfs-server-alpine:12
 
         privileged: true
-        
+
         restart: unless-stopped
 
         volumes:
@@ -237,15 +237,15 @@ services:
             - intranet-database
 
         restart: unless-stopped
-    
+
         volumes:
-                          
+
             - /volumes/intranet/wordpress:/var/www/html
-        
+
         ports:
-        
-            - "10.28.1.1:8080:80"        
-        
+
+            - "10.28.1.1:8080:80"
+
         environment:
 
             WORDPRESS_DB_HOST: intranet-database
@@ -307,13 +307,13 @@ services:
             - /volumes/intranet/servers/countach/shinobi:/home/shinobi
 
             - /volumes/intranet/servers/share:/home/shinobi/Share
- 
+
         hostname: countach
 
         domainname: countach.embanet.online
 
         ports:
-            
+
             - "10.28.1.1:2222:22"
 
     intranet-desktop:
@@ -346,23 +346,23 @@ services:
         volumes:
 
             - /volumes/intranet/servers/shinobi:/home/shinobi
-            
-            - /volumes/intranet/servers/share:/home/shinobi/Share           
+
+            - /volumes/intranet/servers/share:/home/shinobi/Share
 
         ports:
 
           - "10.28.1.1:5922:22"
-          
+
           - "10.28.1.1:5980:80"
 
           - "10.28.1.1:5900:5900"
 
           - "127.0.0.1:5900:5900"
-          
+
         domainname: urus.embanet.online
 
         environment:
-        
+
             TZ: America/Bogota
 
             USER_UID: 1000
@@ -399,7 +399,7 @@ services:
             - /volumes/intranet/devops/jenkins/:/var/jenkins_home
 
             - /var/run/docker.sock:/var/run/docker.sock
-      
+
     intranet-email:
 
         container_name: intranet-email
@@ -457,4 +457,3 @@ services:
             - /volumes/intranet/email/logs/:/var/log/mail/
 
             - /volumes/intranet/email/config/:/tmp/docker-mailserver
- 
